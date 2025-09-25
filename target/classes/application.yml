@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/billiards_store?useUnicode=true&characterEncoding=UTF-8
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        connection.useUnicode: true
+        connection.characterEncoding: UTF-8
+        connection.charSet: UTF-8
+    open-in-view: false
+  flyway:
+    enabled: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: "change_this_secret_to_a_long_random_string_at_least_64_chars_long"
+    expiration: 86400000 # 1 day in ms
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
