@@ -1,34 +1,45 @@
+server:
+  port: ${PORT:8080}   # Railway sẽ cấp PORT động, fallback 8080 cho local
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/billiards_store?useUnicode=true&characterEncoding=UTF-8
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/billiards_store?useUnicode=true&characterEncoding=UTF-8}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         connection.useUnicode: true
         connection.characterEncoding: UTF-8
         connection.charSet: UTF-8
     open-in-view: false
+
   flyway:
-    enabled: false
+    enabled: false   # bật true nếu bạn dùng migration
+
   jackson:
     serialization:
       write-dates-as-timestamps: false
-
-server:
-  port: 8080
-
-app:
-  jwt:
-    secret: "change_this_secret_to_a_long_random_string_at_least_64_chars_long"
-    expiration: 86400000 # 1 day in ms
 
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
   api-docs:
     path: /v3/api-docs
+
+# JWT config
+app:
+  jwt:
+    secret: ${JWT_SECRET:change_this_secret_to_a_long_random_string_at_least_64_chars_long}
+    expiration: ${JWT_EXPIRATION:86400000}   # 1 day in ms
+
+# CORS cho FE
+billiards:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://billiards-store-fe.vercel.app}
